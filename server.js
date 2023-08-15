@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config();
+// require("dotenv").config();
+const MONGODB_URI =
+  "mongodb+srv://vikashmauryastp:hNZlTwrjDlgvmQeq@cluster0.718hhza.mongodb.net/";
 
 const ToDoModel = require("./src/models/TodoModel");
 
@@ -15,10 +17,10 @@ app.use(
 );
 app.use(express.json());
 
-const port = process.env.PORT || 5000;
+const port = 5000;
 
 mongoose
-  .connect(`${process.env.MONGODB_URI}`)
+  .connect(MONGODB_URI)
   .then(() => {
     console.log("connection successful..");
   })
@@ -28,6 +30,8 @@ mongoose
 
 app.post("/add", (req, res) => {
   const todo = req.body.data;
+  console.log(todo);
+
   ToDoModel.create({
     data: todo,
   })
