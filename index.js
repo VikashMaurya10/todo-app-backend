@@ -41,6 +41,9 @@ app.post("/add", (req, res) => {
       console.log(`todo not saved 😒 ${err.massege}`);
     });
 });
+app.get("/add", (req, res) => {
+  res.status(200).send("ToDo has saved...");
+});
 
 app.listen(port, () => {
   console.log(`Server is running at Port: ${port}`);
