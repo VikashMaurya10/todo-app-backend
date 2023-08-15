@@ -10,9 +10,8 @@
   "rewrites": [{ "source": "/(.*)", "destination": "/" }],
   "routes": [
     {
-      "src": "/add",
-      "dest": "/index.js",
-      "methods": ["POST", "GET"]
+      "src": "/(.*)",
+      "dest": "/index.js"
     }
   ]
 }
