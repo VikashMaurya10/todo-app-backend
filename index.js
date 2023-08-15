@@ -6,7 +6,13 @@ require("dotenv").config();
 const ToDoModel = require("./src/models/TodoModel");
 
 const app = express();
-app.use(cors()); // Use the cors middleware
+app.use(
+  cors({
+    origin: "*",
+    methods: "*",
+    allowedHeaders: "*",
+  })
+);
 app.use(express.json());
 
 const port = process.env.PORT || 5000;
