@@ -28,6 +28,7 @@ mongoose
 
 app.post("/add", (req, res) => {
   const todo = req.body.data;
+  console.log(req.body);
   ToDoModel.create({
     data: todo,
   })
