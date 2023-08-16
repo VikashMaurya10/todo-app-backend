@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 // require("dotenv").config();
 const MONGODB_URI =
-  "mongodb+srv://vikashmauryastp:hNZlTwrjDlgvmQeq@cluster0.718hhza.mongodb.net/";
+  "mongodb+srv://vikashmauryastp:vikashmaurya@cluster0.718hhza.mongodb.net/";
 
 const ToDoModel = require("./src/models/TodoModel");
 
