@@ -1,9 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-// require("dotenv").config();
-const MONGODB_URI =
-  "mongodb+srv://vikashmauryastp:vikashmaurya@cluster0.718hhza.mongodb.net/";
+require("dotenv").config();
 
 // import helper files
 const Database = require("./src/helpers/database");
@@ -13,6 +11,7 @@ const ResponseHandler = require("./src/helpers/responseHandler");
 const ToDoModel = require("./src/models/TodoModel");
 
 const app = express();
+const port = process.env.PORT || 5000;
 app.use(
   cors({
     origin: "*",
@@ -21,8 +20,6 @@ app.use(
   })
 );
 app.use(express.json());
-
-const port = 5000;
 
 // connect to database
 Database();
