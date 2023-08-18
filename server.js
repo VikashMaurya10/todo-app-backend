@@ -12,6 +12,8 @@ const ToDoModel = require("./src/models/TodoModel");
 
 const app = express();
 const port = process.env.PORT || 5000;
+
+// Middleware
 app.use(
   cors({
     origin: "*",
@@ -54,15 +56,14 @@ app.get("/list-todos", async (req, res) => {
   }
 });
 
+// delete an todo by getting that ID
 app.delete("/delete/:id", async (req, res) => {
   const todo_id = req.params.id;
-  console.log(todo_id);
-
   const deleteTodo = await ToDoModel.findByIdAndDelete(todo_id);
-
   if (deleteTodo) {
-    ResponseHandler.successResponse(res, "TO do deleted");
+    ResponseHandler.successResponse(res, "TO do deleted 👍");
   } else {
+    ResponseHandler.errorResponse(res, "TO do not deleted 👎");
   }
 });
 
