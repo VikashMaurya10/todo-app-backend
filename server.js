@@ -1,7 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config();
+// require("dotenv").config();
+const MONGODB_URI =
+  "mongodb+srv://vikashmauryastp:vikashmaurya@cluster0.718hhza.mongodb.net/";
 
 // import helper files
 const Database = require("./src/helpers/database");
@@ -20,7 +22,7 @@ app.use(
 );
 app.use(express.json());
 
-const port = process.env.PORT || 5000;
+const port = 5000;
 
 // connect to database
 Database();
