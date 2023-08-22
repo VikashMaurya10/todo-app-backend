@@ -84,28 +84,29 @@ app.put("/update/:id", async (req, res) => {
   const todo_id = req.params.id;
   updated_Todo_data = req.body.data;
 
-  await ToDoModel.findByIdAndUpdate(
-    todo_id,
-    { data: updated_Todo_data },
-    { new: true }
-  )
-    .then(() => {
-      ResponseHandler.successResponse(res, "todo update successfully👍");
-    })
-    .catch(() => {
-      ResponseHandler.errorResponse(res, 500);
-    });
-
-  // await ToDoModel.updateOne(
-  //   { _id: todo_id },
-  //   { $set: { data: updated_Todo_data } }
+  // this method has some delay to update the data🐛
+  // await ToDoModel.findByIdAndUpdate(
+  //   todo_id,
+  //   { data: updated_Todo_data },
+  //   { new: true }
   // )
-  //   .then((result) => {
+  //   .then(() => {
   //     ResponseHandler.successResponse(res, "todo update successfully👍");
   //   })
-  //   .catch((error) => {
+  //   .catch(() => {
   //     ResponseHandler.errorResponse(res, 500);
   //   });
+
+  await ToDoModel.updateOne(
+    { _id: todo_id },
+    { $set: { data: updated_Todo_data } }
+  )
+    .then((result) => {
+      ResponseHandler.successResponse(res, "todo update successfully👍");
+    })
+    .catch((error) => {
+      ResponseHandler.errorResponse(res, 500);
+    });
 
   // ToDoModel.findById(todo_id)
   //   .then((existingRecord) => {
