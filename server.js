@@ -10,6 +10,7 @@ const ResponseHandler = require("./src/helpers/responseHandler");
 // import models
 const ToDoModel = require("./src/models/TodoModel");
 
+// middlewares
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(
@@ -25,14 +26,13 @@ app.use(express.json());
 Database();
 
 // add a todo in database
-app.post("/add", (req, res) => {
+app.post("/add", async (req, res) => {
   const todo = req.body.data;
   if (todo.trim().length > 0) {
-    ToDoModel.create({
+    await ToDoModel.create({
       data: todo,
     })
       .then((result) => {
-        console.log(`todo saved 👍`);
         res.status(200).send("ToDo has been saved...");
       })
       .catch((err) => {
@@ -54,16 +54,76 @@ app.get("/list-todos", async (req, res) => {
   }
 });
 
+// delete a todo by getting ID
 app.delete("/delete/:id", async (req, res) => {
   const todo_id = req.params.id;
-  console.log(todo_id);
-
   const deleteTodo = await ToDoModel.findByIdAndDelete(todo_id);
 
   if (deleteTodo) {
     ResponseHandler.successResponse(res, "TO do deleted");
   } else {
+    ResponseHandler.errorResponse(res, "Internal server error");
   }
+});
+
+// get todo data by id
+app.get("/get/:id", async (req, res) => {
+  const todo_id = req.params.id;
+  await ToDoModel.findById(todo_id)
+    .then((result) => {
+      ResponseHandler.successResponse(res, result);
+    })
+    .catch((error) => {
+      ResponseHandler.errorResponse(res, 500);
+    });
+});
+
+// update a todo by getting id
+app.put("/update/:id", async (req, res) => {
+  const todo_id = req.params.id;
+  updated_Todo_data = req.body.data;
+
+  await ToDoModel.findByIdAndUpdate(
+    todo_id,
+    { data: updated_Todo_data },
+    { new: true }
+  )
+    .then(() => {
+      ResponseHandler.successResponse(res, "todo update successfully👍");
+    })
+    .catch(() => {
+      ResponseHandler.errorResponse(res, 500);
+    });
+
+  // await ToDoModel.updateOne(
+  //   { _id: todo_id },
+  //   { $set: { data: updated_Todo_data } }
+  // )
+  //   .then((result) => {
+  //     ResponseHandler.successResponse(res, "todo update successfully👍");
+  //   })
+  //   .catch((error) => {
+  //     ResponseHandler.errorResponse(res, 500);
+  //   });
+
+  // ToDoModel.findById(todo_id)
+  //   .then((existingRecord) => {
+  //     existingRecord.data = updated_Todo_data;
+  //     return existingRecord.save();
+  //   })
+  //   .then((updatedRecord) => {
+  //     res
+  //       .status(200)
+  //       .json({
+  //         message: "Record updated successfully",
+  //         record: updatedRecord,
+  //       });
+  //   })
+  //   .catch((error) => {
+  //     res
+  //       .status(500)
+  //       .json({ error: "An error occurred while updating the record" });
+  //   });
 });
 
 // start server to serve
